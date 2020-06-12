@@ -26,4 +26,9 @@ query_schema = 'SET search_path to ' + schema_name + ';'
 
 # connect to the database
 con = psycopg2.connect(dbname=dbname, user=sqluser, password=sqlpass, host=host)
-print('\nConfigured for local MIMIC database.')
+print('\nConfigured for local MIMIC database:')
+print('\tuser = {}'.format(sqluser))
+print('\tdbname = {}'.format(dbname))
+print('\thost = {}'.format(host))
+print('\tschema_name = {}'.format(schema_name))
+print('\tquery_schema = {}'.format(query_schema))
