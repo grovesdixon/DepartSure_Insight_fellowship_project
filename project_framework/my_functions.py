@@ -80,8 +80,8 @@ def get_model_performance(model_lab, X_train, y_scores, y_actual, pos_label):
     thresholds, and AUC."""
 
     #precision recall curve
-    precisions, recalls, thresholds = precision_recall_curve(y_actual, y_scores, pos_label=pos_label)
-    opt_threshold = plot_precision_recall_vs_threshold(precisions, recalls, thresholds, title="model={}".format(model_lab))
+    precisions, recalls, pr_thresholds = precision_recall_curve(y_actual, y_scores, pos_label=pos_label)
+    opt_threshold = plot_precision_recall_vs_threshold(precisions, recalls, pr_thresholds, title="model={}".format(model_lab))
     
     #print confusion matrix
     opt_pred = (y_scores > opt_threshold).astype('int')
@@ -100,5 +100,5 @@ def get_model_performance(model_lab, X_train, y_scores, y_actual, pos_label):
     
     
     #return results
-    res = {'fpr':fpr, 'tpr':tpr, 'thresholds':thresholds, 'auc': auc, 'roc_plt':roc_plt, 'opt_threshold' : opt_threshold}
+    res = {'fpr':fpr, 'tpr':tpr, 'roc_thresholds':thresholds, 'recall':recalls[:-1], 'precision':precisions[:-1], 'recall_prec_thresholds': pr_thresholds, 'auc': auc, 'roc_plt':roc_plt, 'opt_threshold' : opt_threshold}
     return(res)

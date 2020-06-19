@@ -57,3 +57,9 @@ plot_coefs(data_dir, 'drug_coefs.csv')
 #discharge notes
 plot_coefs(data_dir, 'dischargeNotes_coefs.csv') + scale_x_continuous(breaks=c(-0.2, 0, 0.2, 0.4))
 
+
+
+df = data.frame(x=1:10,
+                y=1:10)
+df %>% 
+  
