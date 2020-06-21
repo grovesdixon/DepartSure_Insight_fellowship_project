@@ -21,8 +21,51 @@ auc_dat %>%
   coord_flip()
 
 
+# plot feature selection --------------------------------------------------
 
-# plot correlation histograms ---------------------------------------------
+#load the importances
+sdat = read_csv('~/gitreps/Insight_fellowship_project/data/for_plotting/selectionImportances.csv')
+
+plot_selection_hist = function(sdat_in){
+  tot_selected = sum(sdat_in$pass)
+  plt=sdat_in %>% 
+    ggplot(aes(x=importance, fill=pass)) +
+    geom_histogram(bins=80) +
+    scale_fill_manual(values = c('grey50', 'firebrick3')) +
+    labs(x='feature importance',
+         y='feature count') +
+    theme(legend.position = 'none')
+  pbuild = ggplot_build(plt)
+  yrange = pbuild$layout$panel_params[[1]]$y.range
+  xrange = pbuild$layout$panel_params[[1]]$x.range
+  plt +
+    annotate("text", x = xrange[length(xrange)], y = yrange[2],
+             label = paste('N ==', tot_selected), parse=TRUE, color='firebrick3',
+             hjust=1, size=5)
+}
+
+#diagnoses
+sdat %>% 
+  filter(grepl('^diagnosis', feature)) %>% 
+  plot_selection_hist() +
+  scale_x_continuous(breaks = c(0,0.003, 0.006))
+
+#procedures
+sdat %>% 
+  filter(grepl('^procedur', feature)) %>% 
+  plot_selection_hist() 
+
+#words
+sdat %>% 
+  filter(grepl('^DNword', feature)) %>% 
+  nrow()
+
+#prescriptions
+sdat %>% 
+  filter(grepl('^drug', feature)) %>% 
+  plot_selection_hist() 
+
+# old plot feature selection histograms ---------------------------------------------
 THRESHOLD = 0.2
 data_dir= '~/gitreps/Insight_fellowship_project/data/for_plotting/'
 
@@ -55,7 +98,8 @@ plot_coefs(data_dir, 'procedure_icd9_coefs.csv')
 #dugs
 plot_coefs(data_dir, 'drug_coefs.csv')
 #discharge notes
-plot_coefs(data_dir, 'dischargeNotes_coefs.csv') + scale_x_continuous(breaks=c(-0.2, 0, 0.2, 0.4))
+plot_coefs(data_dir, 'dischargeNotes_coefs.csv') + scale_x_continuous(breaks=c(-0.2, 0, 0.2, 0.4)) +
+  labs(x='feature importance')
 
 
 
