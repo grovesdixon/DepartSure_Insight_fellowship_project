@@ -1,3 +1,3 @@
 model,auc
-logistic regression,0.671
-random forest,0.656
+logistic regression,0.922
+random forest,0.997
